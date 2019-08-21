@@ -6,4 +6,4 @@ phases:
   displayName: My Phase
   condition: succeededOrFailed()
   queue:
-    name: Windows 2019 with VS2019
+    name: Hosted Ubuntu 1604
