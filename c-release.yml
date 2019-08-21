@@ -1,9 +1,10 @@
 name: $(BuildID)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 
-phases:
-- phase: Setup
-  displayName: My Phase
-  condition: succeededOrFailed()
+jobs:
+
+- job: Setup
   pool:
     vmImage: windows-latest
+  displayName: My Phase
+  condition: succeededOrFailed()
 
