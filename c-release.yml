@@ -2,6 +2,6 @@ name: $(BuildID)_$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Re
 
 phases:
 
-- phase: Release Setup
+- phase: Setup
   displayName: TBD
   condition: succeededOrFailed()
