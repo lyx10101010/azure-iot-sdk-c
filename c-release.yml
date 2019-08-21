@@ -5,4 +5,5 @@ phases:
 - phase: Setup
   displayName: My Phase
   condition: succeededOrFailed()
-
+  queue:
+    name: Windows 2019 with VS2019
