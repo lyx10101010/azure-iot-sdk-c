@@ -5,7 +5,5 @@ phases:
   displayName: My Phase
   condition: succeededOrFailed()
   pool:
-    name: string  # name of the pool to run this job in
-    demands: string | [ string ]  ## see below
-    vmImage: string # name of the vm image you want to use, only valid in the Microsoft-hosted pool
+    vmImage: windows-latest
 
