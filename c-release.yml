@@ -5,5 +5,3 @@ phases:
 - phase: Setup
   displayName: My Phase
   condition: succeededOrFailed()
-  queue:
-    name: Hosted Ubuntu 1604
