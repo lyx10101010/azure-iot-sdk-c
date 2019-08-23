@@ -22,3 +22,13 @@ jobs:
       downloadType: single
       downloadPath: $(System.ArtifactsDirectory)/scripts
       artifactName: c
+
+  - task: PowerShell@2
+    inputs:
+      filePath: $(System.ArtifactsDirectory)/scripts/c/Update-Versions.ps1
+    env:
+      ReleaseOutputDir: ""
+      ReleaseSources: ""
+      ReleaseInternalsDir: ""
+      PSModulesFile: $(System.ArtifactsDirectory)/scripts/c/cSDKRelease.psm1
+
