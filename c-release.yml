@@ -27,7 +27,7 @@ jobs:
     inputs:
       filePath: $(System.ArtifactsDirectory)/scripts/release/c/vsts/Update-Versions.ps1
     env:
-      ReleaseOutput: $(System.ArtifactsDirectory)/bin
+      ReleaseOutput: $(System.ArtifactsDirectory)
       ReleaseSources: $(Build.SourcesDirectory)
       ReleaseInternals: $(System.ArtifactsDirectory)/scripts
       PSModulesFile: $(System.ArtifactsDirectory)/scripts/release/c/psModule/cSDKRelease.psm1
