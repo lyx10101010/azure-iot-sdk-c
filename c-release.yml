@@ -30,6 +30,6 @@ jobs:
       ReleaseOutput: $(System.ArtifactsDirectory)/bin
       ReleaseSources: $(Build.SourcesDirectory)
       ReleaseInternals: $(System.ArtifactsDirectory)/scripts
-      PSModulesFile: $(System.ArtifactsDirectory)/scripts/c/cSDKRelease.psm1
+      PSModulesFile: $(System.ArtifactsDirectory)/scripts/release/c/psModule/cSDKRelease.psm1
     #enabled: false
 
