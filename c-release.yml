@@ -6,14 +6,14 @@ jobs:
   pool:
     vmImage: windows-latest
   displayName: My Phase
-  condition: succeededOrFailed()
+  condition: succeeded()
 
   steps:
   - checkout: self
     persistCredentials: true
 
   - task: DownloadBuildArtifacts@0
-    condition: succeededOrFailed()
+    condition: succeeded()
     inputs:
       buildType: specific
       project: f9b79625-2860-4d92-a4ee-57b03fabfd10 # azure-iot-sdks
@@ -23,11 +23,23 @@ jobs:
       downloadPath: $(System.ArtifactsDirectory)/scripts
       artifactName: release\c
 
+  - task: DownloadBuildArtifacts@0
+    condition: succeeded()
+    inputs:
+      buildType: specific
+      project: f9b79625-2860-4d92-a4ee-57b03fabfd10 # azure-iot-sdks
+      pipeline: $(scriptspipelineid) # iot-sdks-internals-scripts pipeline
+      buildVersionToDownload: latest
+      downloadType: single
+      downloadPath: $(System.ArtifactsDirectory)/scripts
+      artifactName: release\bump_version
+
   - task: PowerShell@2
+    condition: succeeded()
     inputs:
       filePath: $(System.ArtifactsDirectory)/scripts/release/c/vsts/Update-Versions.ps1
     env:
-      ReleaseOutput: $(System.ArtifactsDirectory)
+      ReleaseOutput: $(System.SourcesDirectory)/out
       ReleaseSources: $(Build.SourcesDirectory)
       ReleaseInternals: $(System.ArtifactsDirectory)/scripts
       PSModulesFile: $(System.ArtifactsDirectory)/scripts/release/c/psModule/cSDKRelease.psm1
