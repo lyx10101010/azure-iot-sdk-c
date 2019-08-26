@@ -21,7 +21,7 @@ jobs:
       buildVersionToDownload: latest
       downloadType: single
       downloadPath: $(System.ArtifactsDirectory)/scripts
-      artifactName: release/c
+      artifactName: release\c
 
   - task: PowerShell@2
     inputs:
