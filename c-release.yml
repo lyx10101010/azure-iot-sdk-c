@@ -29,7 +29,7 @@ jobs:
     env:
       ReleaseOutput: $(System.ArtifactsDirectory)/bin
       ReleaseSources: $(Build.SourcesDirectory)
-      ReleaseInternals: "" # TODO can't have broad reference; need specific location(s)
+      ReleaseInternals: $(System.ArtifactsDirectory)/scripts
       PSModulesFile: $(System.ArtifactsDirectory)/scripts/c/cSDKRelease.psm1
-    enabled: false
+    #enabled: false
 
