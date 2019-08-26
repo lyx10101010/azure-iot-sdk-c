@@ -27,8 +27,9 @@ jobs:
     inputs:
       filePath: $(System.ArtifactsDirectory)/scripts/c/Update-Versions.ps1
     env:
-      ReleaseOutputDir: ""
-      ReleaseSources: ""
-      ReleaseInternalsDir: ""
+      ReleaseOutput: $(System.ArtifactsDirectory)/bin
+      ReleaseSources: $(Build.SourcesDirectory)
+      ReleaseInternals: "" # TODO can't have broad reference; need specific location(s)
       PSModulesFile: $(System.ArtifactsDirectory)/scripts/c/cSDKRelease.psm1
+    enabled: false
 
