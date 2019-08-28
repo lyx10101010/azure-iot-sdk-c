@@ -40,9 +40,10 @@ jobs:
       filePath: $(System.ArtifactsDirectory)/scripts/release/c/vsts/Update-Versions.ps1
     env:
       DryRun: $(dryrun)
+      GitConfigName: $(GitConfigName)
+      GitConfigEmail: $(GitConfigEmail)
       ReleaseOutput: $(System.ArtifactsDirectory)/out
       ReleaseSources: $(Build.SourcesDirectory)
       ReleaseInternals: $(System.ArtifactsDirectory)/scripts
       PSModulesFile: $(System.ArtifactsDirectory)/scripts/release/c/psModule/cSDKRelease.psm1
-    #enabled: false
 
