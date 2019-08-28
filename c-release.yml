@@ -39,6 +39,7 @@ jobs:
     inputs:
       filePath: $(System.ArtifactsDirectory)/scripts/release/c/vsts/Update-Versions.ps1
     env:
+      DryRun: true
       ReleaseOutput: $(System.ArtifactsDirectory)/out
       ReleaseSources: $(Build.SourcesDirectory)
       ReleaseInternals: $(System.ArtifactsDirectory)/scripts
