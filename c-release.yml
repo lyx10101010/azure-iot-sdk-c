@@ -5,7 +5,7 @@ jobs:
 - job: Setup
   pool:
     vmImage: windows-latest
-  displayName: My Phase
+  displayName: c-initialize-release
   condition: succeeded()
 
   steps:
