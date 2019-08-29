@@ -1060,6 +1060,11 @@ static TRANSPORT_LL_HANDLE IoTHubTransportHttp_Create(const IOTHUBTRANSPORT_CONF
             /*Codes_SRS_TRANSPORTMULTITHTTP_17_131: [ If allocation fails, IoTHubTransportHttp_Create shall fail and return NULL. ]*/
             LogError("unable to malloc");
         }
+        else if (HTTPAPIEX_Init() == HTTPAPIEX_ERROR)
+        {
+            LogError("Error initializing HTTP");
+            result = NULL;
+        }
         else
         {
             bool was_hostName_ok = create_hostName(result, config);
@@ -1110,6 +1115,7 @@ static void IoTHubTransportHttp_Destroy(TRANSPORT_LL_HANDLE handle)
         destroy_hostName((HTTPTRANSPORT_HANDLE_DATA *)handle);
         destroy_httpApiExHandle((HTTPTRANSPORT_HANDLE_DATA *)handle);
         destroy_perDeviceList((HTTPTRANSPORT_HANDLE_DATA *)handle);
+        HTTPAPIEX_Deinit();
         free(handle);
     }
 }

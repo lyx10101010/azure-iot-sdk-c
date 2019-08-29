@@ -358,6 +358,7 @@ void e2e_uploadtoblob_multiblock_test(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol,
 
 void e2e_uploadtoblob_test_multiple_simultaneous_uploads(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol)
 {
+    static int fileCounter = 0;
     IOTHUB_CLIENT_RESULT result;
     IOTHUB_PROVISIONED_DEVICE* deviceToUse = IoTHubAccount_GetSASDevice(g_iothubAcctInfo);
     ASSERT_IS_NOT_NULL(deviceToUse);
@@ -372,7 +373,7 @@ void e2e_uploadtoblob_test_multiple_simultaneous_uploads(IOTHUB_CLIENT_TRANSPORT
     // Fire off TEST_MAX_SIMULTANEOUS_UPLOADS simultaneous upload requests.  These will fire in parallel.
     for (int i = 0; i < TEST_MAX_SIMULTANEOUS_UPLOADS; i++)
     {
-        make_file_name(i, uploadFileName);
+        make_file_name(i + fileCounter, uploadFileName);
         uploadToBlobStatus[i] = UPLOADTOBLOB_CALLBACK_PENDING;
         result = IoTHubClient_UploadToBlobAsync(iotHubClientHandle, uploadFileName, UPLOADTOBLOB_E2E_TEST_DATA, strlen(uploadFileName), uploadToBlobCallback, &uploadToBlobStatus[i]);
         ASSERT_ARE_EQUAL(IOTHUB_CLIENT_RESULT, IOTHUB_CLIENT_OK, result, "Could not IoTHubClient_UploadToBlobAsync");
@@ -383,7 +384,7 @@ void e2e_uploadtoblob_test_multiple_simultaneous_uploads(IOTHUB_CLIENT_TRANSPORT
     // Poll for completion, looping one at a time.
     for (int i = 0; i < TEST_MAX_SIMULTANEOUS_UPLOADS; i++)
     {
-        make_file_name(i, uploadFileName);
+        make_file_name(i + fileCounter, uploadFileName);
         LogInfo("waiting for context for context(%p), file(%s)\n", &uploadToBlobStatus[i], uploadFileName);
         poll_for_upload_completion(&uploadToBlobStatus[i]);
         check_upload_result(uploadToBlobStatus[i]);
@@ -395,17 +396,19 @@ void e2e_uploadtoblob_test_multiple_simultaneous_uploads(IOTHUB_CLIENT_TRANSPORT
     ASSERT_ARE_EQUAL(bool, true, (difftime(endOperation, beginOperation) < IOTHUB_UPLOADTOBLOB_TIMEOUT_SEC * 2) ? true : false, "Multithreaded upload took longer than allowed");
 
     IoTHubClient_Destroy(iotHubClientHandle);
+
+    fileCounter += TEST_MAX_SIMULTANEOUS_UPLOADS;
 }
 
 
 BEGIN_TEST_SUITE(iothubclient_uploadtoblob_e2e)
 
-TEST_SUITE_INITIALIZE(TestClassInitialize)
+TEST_FUNCTION_INITIALIZE(TestClassInitialize)
 {
     e2e_uploadblob_init();
 }
 
-TEST_SUITE_CLEANUP(TestClassCleanup)
+TEST_FUNCTION_CLEANUP(TestClassCleanup)
 {
     e2e_uploadblob_deinit();
 }
@@ -414,6 +417,11 @@ TEST_SUITE_CLEANUP(TestClassCleanup)
 TEST_FUNCTION(IoTHub_MQTT_UploadToBlob_multithreaded)
 {
     e2e_uploadtoblob_test_multiple_simultaneous_uploads(MQTT_Protocol);
+}
+
+TEST_FUNCTION(IoTHub_HTTP_UploadToBlob_multithreaded)
+{
+    e2e_uploadtoblob_test_multiple_simultaneous_uploads(HTTP_Protocol);
 }
 
 TEST_FUNCTION(IoTHub_MQTT_UploadToBlob_sas)
